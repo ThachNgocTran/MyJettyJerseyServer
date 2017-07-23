@@ -35,3 +35,8 @@ http://localhost:8080/util/uuid/get
 
 GET
 
+In addition, there is a naively simple usage of Google Guava Cache [1] for 1). When the data is not frequently changed, or the change is not needed to stay up-to-date ASAP, Cache is ideal. A real-life usecase is "Top most read newspaper articles" appearing on the side pane of online newspaper.
+
+Reference:
+
+[1] https://github.com/google/guava/wiki/CachesExplained

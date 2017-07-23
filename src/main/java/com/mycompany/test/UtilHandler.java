@@ -10,6 +10,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -56,12 +57,17 @@ public class UtilHandler {
 
     @POST
     @Path("/say/hello")
-    @Produces(MediaType.TEXT_PLAIN)
     @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.TEXT_PLAIN)
     public Response sayHello(final Name someName){
 
-        return Response.ok(String.format("Hello [%s %s]",
-                someName.getLastName(),
-                someName.getFirstName())).build();
+        SentenceConstructor senCon = new SentenceConstructor();
+
+        Optional<String> res = senCon.sayHello(String.format("%s %s", someName.getFirstName(), someName.getLastName()));
+        if (!res.isPresent()){
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
+
+        return Response.ok(res.get(), MediaType.TEXT_PLAIN).build();
     }
 }

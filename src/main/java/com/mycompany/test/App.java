@@ -15,6 +15,11 @@ https://github.com/erankeren/jetty-jersey
  */
 public class App 
 {
+    static {
+        // Force initialization early for the cache.
+        SentenceConstructor.init();
+    }
+
     public static void main( String[] args )
     {
         try{
