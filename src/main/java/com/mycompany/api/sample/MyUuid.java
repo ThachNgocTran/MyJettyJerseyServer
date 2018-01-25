@@ -1,16 +1,14 @@
-package com.mycompany.test;
+package com.mycompany.api.sample;
 
 import org.apache.commons.lang3.StringUtils;
 
-/**
- * Created on 22/Jul/2017.
- */
-public class Uuid {
+
+public class MyUuid {
 
     private String uuid;
 
-    public Uuid(){}
-    public Uuid(String uuid){
+    public MyUuid(){}
+    public MyUuid(String uuid){
         this.uuid = uuid;
     }
 
@@ -24,6 +22,6 @@ public class Uuid {
 
     @Override
     public String toString(){
-        return String.format("Uuid[uuid=%s]", StringUtils.defaultIfEmpty(uuid, ""));
+        return String.format("MyUuid[uuid=%s]", StringUtils.defaultIfEmpty(uuid, ""));
     }
 }

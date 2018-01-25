@@ -1,7 +1,12 @@
-package com.mycompany.test;
+package com.mycompany.api;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.mycompany.api.sample.MyUuid;
+import com.mycompany.api.sample.Name;
+import com.mycompany.api.sample.SentenceConstructor;
+import com.mycompany.util.JsonConverter;
+import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -13,11 +18,12 @@ import java.util.Date;
 import java.util.Optional;
 import java.util.UUID;
 
-/**
- * Created on 22/Jul/2017.
- */
-@Path("/util")
-public class UtilHandler {
+
+@Path("/api")
+public class RequestHandler {
+
+    private static final String CLASS_NAME = RequestHandler.class.getSimpleName();
+    private static final Logger LOGGER = LogManager.getLogger(CLASS_NAME);
 
     @GET
     @Path("/clock/date/next/{day}/{month}/{year}")
@@ -25,6 +31,8 @@ public class UtilHandler {
     public Response getNextDate(@PathParam("day") String day,
                                 @PathParam("month") String month,
                                 @PathParam("year") String year){
+
+        LOGGER.info("API getNextDate() is being called.");
 
         String nextDate;
 
@@ -35,10 +43,14 @@ public class UtilHandler {
             Calendar cal = Calendar.getInstance();
             cal.setTime(startDate);
             cal.add(Calendar.DATE, 1);
+
             nextDate = df.format(cal.getTime());
         }
         catch (Throwable th){
-            return Response.status(Response.Status.BAD_REQUEST).build();
+            // Only serious error!
+            LOGGER.error(String.format("Error occurred when calling api getNextDate(): [%s]",
+                    ExceptionUtils.getStackTrace(th)));
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
 
         return Response.ok(nextDate, MediaType.APPLICATION_JSON).build();
@@ -49,21 +61,29 @@ public class UtilHandler {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getUUID(){
 
-        Uuid uuid = new Uuid(UUID.randomUUID().toString());
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        LOGGER.info("API getUUID() is being called.");
 
-        return Response.ok(gson.toJson(uuid), MediaType.APPLICATION_JSON).build();
+        /*
+        https://stackoverflow.com/questions/7212635/is-java-util-uuid-thread-safe
+        It's thread-safe!
+         */
+        MyUuid myUuid = new MyUuid(UUID.randomUUID().toString());
+
+        return Response.ok(JsonConverter.toJson(myUuid), MediaType.APPLICATION_JSON).build();
     }
 
     @POST
     @Path("/say/hello")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.TEXT_PLAIN)
-    public Response sayHello(final Name someName){
+    public Response sayHello(final Name someName){  // Note: The JSON String is cast into this Class!
+
+        LOGGER.info("API sayHello() is being called.");
 
         SentenceConstructor senCon = new SentenceConstructor();
 
-        Optional<String> res = senCon.sayHello(String.format("%s %s", someName.getFirstName(), someName.getLastName()));
+        Optional<String> res = senCon.sayHello(String.format("%s %s",
+                someName.getFirstName(), someName.getLastName()));
         if (!res.isPresent()){
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }

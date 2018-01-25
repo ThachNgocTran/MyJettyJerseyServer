@@ -31,7 +31,7 @@ GET
 
 3. GET Request. Receive JSON back.
 
-http://localhost:8080/util/uuid/get
+http://localhost:8080/util/myUuid/get
 
 GET
 

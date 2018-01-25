@@ -1,4 +1,4 @@
-package com.mycompany.test;
+package com.mycompany.api.sample;
 
 import org.apache.commons.lang3.StringUtils;
 

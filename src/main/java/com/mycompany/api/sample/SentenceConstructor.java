@@ -1,4 +1,4 @@
-package com.mycompany.test;
+package com.mycompany.api.sample;
 
 import jersey.repackaged.com.google.common.cache.CacheBuilder;
 import jersey.repackaged.com.google.common.cache.CacheLoader;
@@ -8,13 +8,10 @@ import org.apache.http.util.Args;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
-/**
- * Created on 23/Jul/2017.
- */
+
 public class SentenceConstructor {
 
     private static final String CLASS_NAME = SentenceConstructor.class.getSimpleName();
@@ -43,7 +40,8 @@ public class SentenceConstructor {
     }
 
     public static void init(){
-
+        // When this static function gets called, it forces the static block of this class to be called first.
+        // Thus, the caching starts!
     }
 
     public SentenceConstructor(){
