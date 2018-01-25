@@ -1,13 +1,17 @@
 # MyJettyJerseyServer
-My attempt to create a HTTP server (Jetty) with Restful support (Jersey). Thanks to the Internet. :)
+My attempt to create a web server (Jetty) with Restful support (Jersey). CORS support is also available! [2]
 
 Compile: mvn package
 
-Run: java -jar MyJettyJerseyServer-1.0.jar
+Run: java -cp MyJettyJerseyServer-1.0.jar "com.mycompany.server.App"
 
-The JAR is uber-jar. Java version tested: 1.8.0_131 x64.
+The JAR is uber-jar. Java version: 1.8.0_151 x64. Compiled with Maven v3.5.0. Project file: Intellij IDEA 2017.3.
 
-My favorite RESTful client: https://chrome.google.com/webstore/detail/advanced-rest-client/hgmloofddffdnphfgcellkdfbfbjeloo
+My favorite RESTful clients:
+
++ https://chrome.google.com/webstore/detail/advanced-rest-client/hgmloofddffdnphfgcellkdfbfbjeloo
+
++ https://www.telerik.com/fiddler
 
 Some testcases:
 
@@ -17,7 +21,7 @@ URL: http://localhost:8080/util/say/hello
 
 Header: Content-type: application/json
 
-POST Data:
+POST with Data:
 {
   "lastName": "John",
   "firstName": "Smith"
@@ -40,3 +44,5 @@ In addition, there is a naively simple usage of Google Guava Cache [1] for 1). W
 Reference:
 
 [1] https://github.com/google/guava/wiki/CachesExplained
+
+[2] https://en.wikipedia.org/wiki/Cross-origin_resource_sharing
